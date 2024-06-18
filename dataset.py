@@ -114,7 +114,7 @@ class Shuttlecock_Trajectory_Dataset(Dataset):
         else:
             # Generate rally image configuration file
             self.rally_dict = self._get_rally_dict()
-            img_config_file = os.path.join(self.root_dir, f'img_config_{self.HEIGHT}x{self.WIDTH}_{self.split}.npz')
+            img_config_file = os.path.join('/kaggle/input/tennisdatasetaddfiles', f'img_config_{self.HEIGHT}x{self.WIDTH}_{self.split}.npz')
             if not os.path.exists(img_config_file):
                 self._gen_rally_img_congif_file(img_config_file)
             img_config = np.load(img_config_file)
@@ -127,7 +127,7 @@ class Shuttlecock_Trajectory_Dataset(Dataset):
             else:
                 # Split based
                 # Generate and load input file 
-                input_file = os.path.join(self.root_dir, f'data_l{self.seq_len}_s{self.sliding_step}_{self.data_mode}_{self.split}.npz')
+                input_file = os.path.join('/kaggle/input/tennisdatasetaddfiles', f'data_l{self.seq_len}_s{self.sliding_step}_{self.data_mode}_{self.split}.npz')
                 if not os.path.exists(input_file):
                     self._gen_input_file(file_name=input_file)
                 data_dict = np.load(input_file)
@@ -168,7 +168,7 @@ class Shuttlecock_Trajectory_Dataset(Dataset):
             img_scaler.append((w_scaler, h_scaler))
             img_shape.append((w, h))
         
-        np.savez(file_name, img_scaler=img_scaler, img_shape=img_shape)
+        #np.savez(file_name, img_scaler=img_scaler, img_shape=img_shape)
             
     def _gen_input_file(self, file_name):
         """ Generate input file for training and evaluation. """
@@ -188,7 +188,7 @@ class Shuttlecock_Trajectory_Dataset(Dataset):
                 coor = np.concatenate((coor, data_dict['coor']), axis=0)
                 vis = np.concatenate((vis, data_dict['vis']), axis=0)
             
-            np.savez(file_name, id=id, frame_file=frame_file, coor=coor, vis=vis)
+            #np.savez(file_name, id=id, frame_file=frame_file, coor=coor, vis=vis)
         else:
             id = np.array([], dtype=np.int32).reshape(0, self.seq_len, 2)
             coor = np.array([], dtype=np.float32).reshape(0, self.seq_len, 2)
@@ -207,8 +207,8 @@ class Shuttlecock_Trajectory_Dataset(Dataset):
                 pred_vis = np.concatenate((pred_vis, data_dict['pred_vis']), axis=0)
                 inpaint_mask = np.concatenate((inpaint_mask, data_dict['inpaint_mask']), axis=0)
             
-            np.savez(file_name, id=id, coor=coor, coor_pred=coor_pred,
-                     vis=vis, pred_vis=pred_vis, inpaint_mask=inpaint_mask)
+            #np.savez(file_name, id=id, coor=coor, coor_pred=coor_pred,
+                     #vis=vis, pred_vis=pred_vis, inpaint_mask=inpaint_mask)
 
     def _gen_input_from_rally_dir(self, rally_dir):
         """ Generate input sequences from a rally directory. """
